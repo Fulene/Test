@@ -20,7 +20,6 @@ public class UserService {
     public User getUserById(int id) {
         return userRepository.getUserById(id);
     }
-
     public User saveUser(User user) {
         return userRepository.save(user);
     }

@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/test")
+//@RestController
+//@RequestMapping("/test")
 public class TestRestController {
 
     private final UserService userService;
@@ -34,9 +34,9 @@ public class TestRestController {
         return userService.getUsers();
     }
 
-    @GetMapping("/user/{id}")
-    public User getUserById(@PathVariable int id) {
-        return userService.getUserById(id);
+    @GetMapping("/usersByIds/{ids}")
+    public List<Integer> getUserById(@PathVariable List<Integer> ids) {
+        return ids;
     }
 
     @PostMapping

@@ -4,14 +4,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.synox.test.view.Views;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter @Setter
 @AllArgsConstructor
 public class User {
+
+    @JsonView(Views.WithRestrictionView.class)
+    private int id;
 
     @JsonProperty("userName")
     @JsonView(Views.WithRestrictionView.class)
@@ -20,14 +24,8 @@ public class User {
     @JsonView(Views.WithRestrictionView.class)
     private String lastname;
 
-    @JsonView(Views.WithRestrictionView.class)
-    private int age;
-
     @JsonView(Views.WithoutRestrictionView.class)
-    private String weight;
-
-    @JsonView(Views.WithoutRestrictionView.class)
-    private String size;
+    private List<Dishe> favoriteDishes;
 
 
     @JsonIgnore
@@ -37,7 +35,7 @@ public class User {
 
     @Override
     public String toString() {
-        return name + "," + lastname + "," + age + System.lineSeparator();
+        return name + "," + lastname + "," + System.lineSeparator();
     }
 
 }
