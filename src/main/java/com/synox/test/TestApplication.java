@@ -57,12 +57,12 @@ public class TestApplication implements CommandLineRunner {
 //		User user = new User("Mehdi", "Hamerlaine", 27, "95", "1.71");
 //		streamTest();
 //		mapTest();
-//		streamTest2();
+		streamTest2();
 //		testStrBuilder();
 //		testDate();
 //		testStr();
 //      testRegexEscap();
-        objectMapping();
+//      objectMapping();
     }
 
     private void objectMapping() throws JsonProcessingException {
@@ -166,12 +166,14 @@ public class TestApplication implements CommandLineRunner {
                         new User(2, "autre2", "fe", null),
                         new User(3, "autre3", "xs", null));
 
-        System.out.println(userList2);
-        userList1.forEach(u1 ->
-                userList2.stream().filter(u2 -> u2.getId() == u1.getId())
-                        .findFirst().ifPresent(u2 -> u2.setName(u1.getName())));
-        System.out.println(userList2);
+//        System.out.println(userList2);
+//        userList1.forEach(u1 ->
+//                userList2.stream().filter(u2 -> u2.getId() == u1.getId())
+//                        .findFirst().ifPresent(u2 -> u2.setName(u1.getName())));
+//        System.out.println(userList2);
 
+        List<Integer> userIds = userList1.stream().map(User::getId).collect(Collectors.toList());
+        System.out.println(userIds);
     }
 
     private void mapTest() {

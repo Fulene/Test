@@ -23,7 +23,7 @@ public class User {
     @JsonView(Views.WithRestrictionView.class)
     private String name;
 
-    @JsonView(Views.WithRestrictionView.class)
+    @JsonView(Views.WithoutRestrictionView.class)
     private String lastname;
 
     @JsonView(Views.WithoutRestrictionView.class)
