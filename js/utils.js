@@ -61,6 +61,12 @@ async saveBuilding(building: Building): Promise<Building> {
 	return new Building(res);
 }
 
+async getEncoderByDeviceType(deviceTypeId: number): Promise<Encoder> {
+    let res = await this.dataService.get(this.getBaseUrl() + '/getByDeviceType/' + deviceTypeId)
+      .pipe(first()).toPromise();
+    return new Encoder(res);
+}
+
 getAllScheduledMsgByEncoderCmdIds(encoderCmdIds: number[]): Observable<ScheduledMessage[]> {
 	return this.dataService.get(this.getBaseUrl() + '/scheduledMsgByEncoderCmdIds/' + encoderCmdIds)
 	.pipe(first(), map(data => data.map((d:Partial<ScheduledMessage>) => new ScheduledMessage(d))));
