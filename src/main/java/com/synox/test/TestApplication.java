@@ -57,7 +57,7 @@ public class TestApplication implements CommandLineRunner {
 //		User user = new User("Mehdi", "Hamerlaine", 27, "95", "1.71");
 //		streamTest();
 //		mapTest();
-		streamTest2();
+//		streamTest2();
 //		testStrBuilder();
 //		testDate();
 //		testStr();
