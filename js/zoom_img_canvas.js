@@ -67,12 +67,8 @@ ngAfterViewInit(): void {
     this.itemElt.nativeElement.width = carouselEltStyle.width;
     this.itemElt.nativeElement.height = carouselEltStyle.height * 0.9;
 
-    let hRatio = this.canvasElt.nativeElement.width / this.img.width;
-    let vRatio = this.canvasElt.nativeElement.height / this.img.height;
-    let ratio = Math.min(hRatio, vRatio);
-
-    this.imageElt.nativeElement.width = this.itemElt.nativeElement.width * ratio;
-    this.imageElt.nativeElement.height = this.itemElt.nativeElement.height * ratio;
+    this.imageElt.nativeElement.width = this.itemElt.nativeElement.width * 0.9;
+    this.imageElt.nativeElement.height = this.itemElt.nativeElement.height * 0.85;
 
     this.canvasElt.nativeElement.width = this.imageElt.nativeElement.width;
     this.canvasElt.nativeElement.height = this.imageElt.nativeElement.height;
@@ -85,12 +81,14 @@ ngAfterViewInit(): void {
   }
 
   zoom(clicks: number) {
-    let pt = this.ctx.transformedPoint(this.lastX, this.lastY); // pt correspond à la position x,y de la souris
-    this.ctx.translate(pt.x, pt.y);
-    var factor = Math.pow(this.scaleFactor, clicks);
-    this.ctx.scale(factor, factor);
-    this.ctx.translate(-pt.x, -pt.y);
-    this.redraw();
+    setTimeout(() => {
+      var factor = Math.pow(this.scaleFactor, clicks);
+      let pt = this.ctx.transformedPoint(this.lastX, this.lastY); // pt correspond à la position x,y de la souris
+      this.ctx.translate(pt.x, pt.y);
+      this.ctx.scale(factor, factor);
+      this.ctx.translate(-pt.x, -pt.y);
+      this.redraw();
+    }, 0);
   }
 
   redraw() {
@@ -103,7 +101,7 @@ ngAfterViewInit(): void {
     this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     this.ctx.clearRect(0, 0, this.canvasElt.nativeElement.width, this.canvasElt.nativeElement.height);
     this.ctx.restore();
-    // this.ctx.drawImage(this.img, 0, 0, this.canvasElt.nativeElement.width);
+    // Calculating ratio to keep img proportions
     let hRatio = this.canvasElt.nativeElement.width / this.img.width;
     let vRatio = this.canvasElt.nativeElement.height / this.img.height;
     let ratio = Math.min(hRatio, vRatio);
@@ -113,7 +111,7 @@ ngAfterViewInit(): void {
       0,
       this.img.width,
       this.img.height,
-      0,
+      this.canvasElt.nativeElement.width / 2 - (this.img.width * ratio) / 2,
       0,
       this.img.width * ratio,
       this.img.height * ratio
@@ -142,6 +140,7 @@ ngAfterViewInit(): void {
 
     let scale = this.ctx.scale;
     this.ctx.scale = (sx: number | undefined, sy: number | undefined) => {
+      if (sx && xform.a <= 1 && sx < 1) return;
       xform = xform.scaleNonUniform(sx, sy);
       return scale.call(this.ctx, sx, sy);
     };
