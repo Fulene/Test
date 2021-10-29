@@ -63,6 +63,26 @@ public class TestApplication implements CommandLineRunner {
 //		testStr();
 //      testRegexEscap();
 //      objectMapping();
+        testAmine();
+    }
+
+    private void testAmine() {
+        System.out.println("===== Begin =====");
+        Scanner sc = new Scanner(System.in);
+
+//        int[] arr = new int[50];
+        List<Integer> list = new ArrayList<>();
+
+        for (int i = 0; i <= 3 ; i++) {
+            System.out.println("2) Entrer un nb : ");
+            list.add(Integer.parseInt(sc.nextLine()));
+        }
+
+        System.out.println("res : " + list);
+
+        // Arrays.stream(arr)... <= si array
+        int sum = list.stream().reduce(0, Integer::sum);
+        System.out.println(sum);
     }
 
     private void objectMapping() throws JsonProcessingException {
