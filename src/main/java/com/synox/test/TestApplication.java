@@ -3,7 +3,6 @@ package com.synox.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synox.test.model.Dishe;
-import com.synox.test.model.Ingredient;
 import com.synox.test.model.User;
 import com.synox.test.service.RandomTestService;
 import com.synox.test.service.UserService;
@@ -13,17 +12,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Predicate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @SpringBootApplication
 public class TestApplication implements CommandLineRunner {

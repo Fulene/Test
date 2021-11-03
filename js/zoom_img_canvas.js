@@ -1,56 +1,63 @@
 ngAfterViewInit(): void {
-    if (this.isCarouselMode)
-      setTimeout(() => {
-        this.setDimensions();
-        this.ctx = this.canvasElt.nativeElement.getContext('2d');
-        this.trackTransforms();
+    if (!this.isCarouselMode) return;
+    if (!this.item.stringValue) {
+      this.item.stringValue = this.defaultImgUrl;
+    }
+    this.img.crossOrigin = 'anonymous';
+    this.img.src = this.item.stringValue;
+    this.img.onerror = () => {
+      this.item.stringValue = this.defaultImgUrl;
+      this.img.src = this.item.stringValue;
+    };
+    this.setDimensions();
+    this.ctx = this.canvasElt.nativeElement.getContext('2d');
+    this.trackTransforms();
 
-        let dragStart: { x: number; y: number } | null;
-        let dragged: boolean;
-        this.canvasElt.nativeElement.addEventListener(
-          'mousedown',
-          (evt: { offsetX: number; pageX: number; offsetY: number; pageY: number }) => {
-            this.lastX = evt.offsetX || evt.pageX - this.canvasElt.nativeElement.offsetLeft;
-            this.lastY = evt.offsetY || evt.pageY - this.canvasElt.nativeElement.offsetTop;
-            dragStart = this.ctx.transformedPoint(this.lastX, this.lastY);
-            dragged = false;
-          },
-          false
-        );
+    let dragStart: { x: number; y: number } | null;
+    let dragged: boolean;
+    this.canvasElt.nativeElement.addEventListener(
+      'mousedown',
+      (evt: { offsetX: number; pageX: number; offsetY: number; pageY: number }) => {
+        this.lastX = evt.offsetX || evt.pageX - this.canvasElt.nativeElement.offsetLeft;
+        this.lastY = evt.offsetY || evt.pageY - this.canvasElt.nativeElement.offsetTop;
+        dragStart = this.ctx.transformedPoint(this.lastX, this.lastY);
+        dragged = false;
+      },
+      false
+    );
 
-        this.canvasElt.nativeElement.addEventListener(
-          'mousemove',
-          (evt: { offsetX: number; pageX: number; offsetY: number; pageY: number }) => {
-            this.lastX = evt.offsetX || evt.pageX - this.canvasElt.nativeElement.offsetLeft;
-            this.lastY = evt.offsetY || evt.pageY - this.canvasElt.nativeElement.offsetTop;
-            dragged = true;
-            if (dragStart) {
-              var pt = this.ctx.transformedPoint(this.lastX, this.lastY);
-              this.ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
-              this.redraw();
-            }
-          },
-          false
-        );
+    this.canvasElt.nativeElement.addEventListener(
+      'mousemove',
+      (evt: { offsetX: number; pageX: number; offsetY: number; pageY: number }) => {
+        this.lastX = evt.offsetX || evt.pageX - this.canvasElt.nativeElement.offsetLeft;
+        this.lastY = evt.offsetY || evt.pageY - this.canvasElt.nativeElement.offsetTop;
+        dragged = true;
+        if (dragStart) {
+          var pt = this.ctx.transformedPoint(this.lastX, this.lastY);
+          this.ctx.translate(pt.x - dragStart.x, pt.y - dragStart.y);
+          this.redraw();
+        }
+      },
+      false
+    );
 
-        this.canvasElt.nativeElement.addEventListener(
-          'mouseup',
-          (evt: { shiftKey: any }) => {
-            dragStart = null;
-            if (!dragged) this.zoom(evt.shiftKey ? -1 : 1);
-          },
-          false
-        );
+    this.canvasElt.nativeElement.addEventListener(
+      'mouseup',
+      (evt: { shiftKey: any }) => {
+        dragStart = null;
+        if (!dragged) this.zoom(evt.shiftKey ? -1 : 1);
+      },
+      false
+    );
 
-        this.observer = new ResizeObserver(() => {
-          if (this.debounceObserverId) clearTimeout(this.debounceObserverId);
-          this.debounceObserverId = _.delay(() => this.initCanvas(), appConstant.delayProcessDom);
-        });
-        this.observer.observe(this.itemElt.nativeElement);
+    this.observer = new ResizeObserver(() => {
+      if (this.debounceObserverId) clearTimeout(this.debounceObserverId);
+      this.debounceObserverId = _.delay(() => this.initCanvas(), appConstant.delayProcessDom);
+    });
+    this.observer.observe(this.itemElt.nativeElement);
 
-        this.canvasElt.nativeElement.addEventListener('DOMMouseScroll', (e: any) => this.handleScroll(e), false);
-        this.canvasElt.nativeElement.addEventListener('mousewheel', (e: any) => this.handleScroll(e), false);
-      }, 0);
+    this.canvasElt.nativeElement.addEventListener('DOMMouseScroll', (e: any) => this.handleScroll(e), false);
+    this.canvasElt.nativeElement.addEventListener('mousewheel', (e: any) => this.handleScroll(e), false);
   }
 
   initCanvas() {
@@ -189,10 +196,9 @@ ngAfterViewInit(): void {
     };
   }
 
-  onErrorImg() {
-    this.item.stringValue = this.EMPTY_CONTENT;
-  }
-
-  ngOnDestroy(): void {
-    if (this.observer) this.observer.unobserve(this.itemElt.nativeElement);
+  download() {
+    let name = ToolboxService.normalizeFilename(this.widgetTitle);
+    let fileExt = '.jpg';
+    let fileName = name + '_' + this.deviceName + '_' + this.dateTime + fileExt;
+    ToolboxService.downloadFile(fileName, this.canvasElt.nativeElement.toDataURL('image/jpeg'));
   }
