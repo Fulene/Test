@@ -55,7 +55,15 @@ public class TestApplication implements CommandLineRunner {
 //		testStr();
 //      testRegexEscap();
 //      objectMapping();
-        testAmine();
+//        testAmine();
+//        testIf();
+    }
+
+    private void testIf() {
+        int age = 15;
+        if (age > 10) System.out.println("1");
+        else if (age > 12) System.out.println("2");
+        if (age > 12) System.out.println("3");
     }
 
     private void testAmine() {
