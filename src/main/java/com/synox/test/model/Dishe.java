@@ -1,14 +1,13 @@
 package com.synox.test.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-@Getter @Setter
+@Data
 public class Dishe {
 
     private final String name;

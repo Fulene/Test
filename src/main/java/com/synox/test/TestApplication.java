@@ -3,6 +3,7 @@ package com.synox.test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synox.test.model.Dishe;
+import com.synox.test.model.Ingredient;
 import com.synox.test.model.User;
 import com.synox.test.service.RandomTestService;
 import com.synox.test.service.UserService;
@@ -57,6 +58,24 @@ public class TestApplication implements CommandLineRunner {
 //      objectMapping();
 //        testAmine();
 //        testIf();
+        testList();
+//        testOf();
+    }
+
+    private void testOf(String name, List<Ingredient> ingredients) {
+
+    }
+
+
+    private void testList() {
+        List<String> test = new ArrayList<>();
+        test.add("Pizza");
+        test.add("Burger");
+        test.add("Crepe");
+
+        List<Dishe> dishes = test.stream().map(n -> new Dishe(n, new ArrayList<>())).peek(d -> d.setIsTest(true)).collect(Collectors.toList());
+
+        System.out.println(dishes);
     }
 
     private void testIf() {
