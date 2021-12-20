@@ -77,3 +77,11 @@ persistScheduledMsgList(scheduledMsgList: ScheduledMessage[]): Observable<Schedu
     .pipe(first(), map(data => data.map((d:Partial<ScheduledMessage>) => new ScheduledMessage(d))));
 }
 
+deleteBuilding(buildingId: number): Observable<any> {
+    return this.dataService.delete(this.getBaseUrl() + '/' + buildingId).pipe(
+      map(() => {
+        _.remove(this.buildings, (b) => b.id === buildingId);
+        this.buildings$.next(this.buildings);
+      })
+    );
+}
