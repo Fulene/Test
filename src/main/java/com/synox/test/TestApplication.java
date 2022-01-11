@@ -61,10 +61,15 @@ public class TestApplication implements CommandLineRunner {
 //        testList();
 //        testOf();
         testFromMasterBranch();
+        testFromTestBranch();
     }
 
     private void testFromMasterBranch() {
         System.out.println("test From Master Branch");
+    }
+
+    private void testFromTestBranch() {
+        System.out.println("test from test branch !!");
     }
 
 
