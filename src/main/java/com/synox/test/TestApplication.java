@@ -70,6 +70,7 @@ public class TestApplication implements CommandLineRunner {
 
     private void testFromTestBranch() {
         System.out.println("test from test branch !!");
+        System.out.println("Added test from test branch !!");
     }
 
 
