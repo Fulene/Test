@@ -58,12 +58,13 @@ public class TestApplication implements CommandLineRunner {
 //      objectMapping();
 //        testAmine();
 //        testIf();
-        testList();
+//        testList();
 //        testOf();
+        testFromMasterBranch();
     }
 
-    private void testOf(String name, List<Ingredient> ingredients) {
-
+    private void testFromMasterBranch() {
+        System.out.println("test From Master Branch");
     }
 
 
