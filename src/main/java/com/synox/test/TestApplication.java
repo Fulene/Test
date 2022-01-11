@@ -73,6 +73,10 @@ public class TestApplication implements CommandLineRunner {
         System.out.println("Added test from test branch !!");
     }
 
+    private void testFromTest2Branch() {
+        System.out.println("test from test2 branch !!");
+    }
+
 
     private void testList() {
         List<String> test = new ArrayList<>();
