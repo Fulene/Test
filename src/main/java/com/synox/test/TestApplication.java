@@ -14,6 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -52,7 +55,7 @@ public class TestApplication implements CommandLineRunner {
 //		mapTest();
 //		streamTest2();
 //		testStrBuilder();
-//		testDate();
+		testDate();
 //		testStr();
 //      testRegexEscap();
 //      objectMapping();
@@ -60,8 +63,8 @@ public class TestApplication implements CommandLineRunner {
 //        testIf();
 //        testList();
 //        testOf();
-        testFromMasterBranch();
-        testFromTestBranch();
+//        testFromMasterBranch();
+//        testFromTestBranch();
     }
 
     private void testFromMasterBranch() {
@@ -141,15 +144,19 @@ public class TestApplication implements CommandLineRunner {
 
     private void testDate() throws ParseException {
 //		Date date = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/02/2020 21:00");
-//		Date date2 = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/02/2020 22:00");
+//		Date date2 = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse("15/02/2025 22:00");
 //		String currentDateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date());
 //		Date currentDate = new SimpleDateFormat("dd/MM/yyyy hh:mm").parse(currentDateFormat);
 //		System.out.println("date : " + date);
 //		System.out.println("currentDate : " + currentDate);
-//		System.out.println(date.compareTo(currentDate));
+//		System.out.println(date.compareTo(currentDate)); // si date avant currentDate => -1
 //		System.out.println(currentDate.compareTo(date));
-//		System.out.println(date2.compareTo(date));
-        System.out.println(new Date().compareTo(null));
+//        System.out.println(new Date());
+//		System.out.println(date2.compareTo(new Date()));
+
+
+        Date d = Date.from(LocalDate.now().minusMonths(3).atStartOfDay(ZoneId.systemDefault()).toInstant()); // 3 mois en arrière
+        System.out.println(d);
     }
 
     private void testStrBuilder() {
