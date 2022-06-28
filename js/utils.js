@@ -1,3 +1,17 @@
+
+// List all json path
+const checkEmptyJson = (jsonEn, root, finalArr) => {
+    const arr = []
+    for (let k in jsonEn) {
+        let root2 = root + '.' + k
+        if (jsonEn[k] instanceof Object) {
+            checkEmptyJson(jsonEn[k], root2, finalArr)
+        } else arr.push(root2)
+    }
+    finalArr.push(arr)
+}
+
+
 function isGlobalConfValid() {
   var conf = vm.alarm.config.alertDownlinkConf;
   var confOk = vm.alarm.config.alertDownlinkConfOk;
@@ -85,3 +99,5 @@ deleteBuilding(buildingId: number): Observable<any> {
       })
     );
 }
+
+

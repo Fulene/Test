@@ -5,17 +5,26 @@ import com.synox.test.model.User;
 import com.synox.test.service.UserService;
 import com.synox.test.view.Views;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequiredArgsConstructor
-//@RestController
-//@RequestMapping("/test")
+@RestController
+@RequestMapping("/test")
 public class TestRestController {
 
+    @Value("${test.firstname}")
+    private String testFn;
+
     private final UserService userService;
+
+    @GetMapping("/test-fn")
+    public String testFn() {
+        return testFn;
+    }
 
     @GetMapping()
     public List<User> getUsersWithoutJsonView() {

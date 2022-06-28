@@ -1,25 +1,29 @@
 package com.synox.test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.synox.test.model.Dishe;
-import com.synox.test.model.Ingredient;
 import com.synox.test.model.User;
+import com.synox.test.service.AsyncService;
 import com.synox.test.service.RandomTestService;
 import com.synox.test.service.UserService;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.core.env.Environment;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @SpringBootApplication
 public class TestApplication implements CommandLineRunner {
@@ -31,6 +35,9 @@ public class TestApplication implements CommandLineRunner {
     RandomTestService randomTestService;
     @Autowired
     UserService userService;
+
+    @Autowired
+    AsyncService asyncService;
 
     Environment environment;
 
@@ -55,16 +62,81 @@ public class TestApplication implements CommandLineRunner {
 //		mapTest();
 //		streamTest2();
 //		testStrBuilder();
-		testDate();
+//		testDate();
 //		testStr();
 //      testRegexEscap();
 //      objectMapping();
 //        testAmine();
 //        testIf();
-//        testList();
+        testList();
 //        testOf();
 //        testFromMasterBranch();
 //        testFromTestBranch();
+//        testBool();
+//        testBigDecimal();
+//        testConversion();
+//        testValueInj();
+//        testRef();
+//        testAsync();
+    }
+
+    private void testAsync() {
+        System.out.println("Parent : "
+            + Thread.currentThread().getName());
+        Future<String> future = asyncService.asyncMethodWithReturnType();
+        while (true) {
+            if (future.isDone()) {
+                try {
+                    System.out.println("Result from asynchronous process - " + future.get());
+                } catch (InterruptedException | ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+                break;
+            }
+            System.out.println("Continue doing something else.");
+            System.out.println("And again...");
+        }
+        System.out.println("Out of loop");
+    }
+
+    private void testRef() {
+//        HashMap<String, String> map = new HashMap<>();
+//        refTest(map);
+//        System.out.println(map);
+        User u = new User();
+        u.setName("Mehdi");
+        refTest(u);
+        System.out.println(u);
+    }
+
+    private void refTest(User u) {
+        u.setLastname("Ham");
+    }
+
+    private void testValueInj() {
+        User user = new User();
+        System.out.println(user);
+    }
+
+    private void testConversion() {
+//        Long i = 12356497L;
+//        System.out.println(i);
+
+        Double y = 1800.0 / 100_000_000;
+        System.out.println(y);
+    }
+
+    private void testBigDecimal() {
+        BigDecimal bd1 = new BigDecimal("1.0");
+        BigDecimal bd2 = new BigDecimal("1.00");
+        BigDecimal bd3 = new BigDecimal("3.1");
+
+        System.out.println(bd3.subtract(bd1));
+    }
+
+    private void testBool() {
+        System.out.println(true);
+        System.out.println(!true);
     }
 
     private void testFromMasterBranch() {
@@ -82,14 +154,61 @@ public class TestApplication implements CommandLineRunner {
 
 
     private void testList() {
-        List<String> test = new ArrayList<>();
-        test.add("Pizza");
-        test.add("Burger");
-        test.add("Crepe");
+//        List<String> test = new ArrayList<>();
+//        test.add("Pizza");
+//        test.add("Burger");
+//        test.add("Crepe");
+//
+//        List<Dishe> dishes = test.stream().map(n -> new Dishe(n, new ArrayList<>())).peek(d -> d.setIsTest(true)).collect(Collectors.toList());
+//
+//        System.out.println(dishes);
 
-        List<Dishe> dishes = test.stream().map(n -> new Dishe(n, new ArrayList<>())).peek(d -> d.setIsTest(true)).collect(Collectors.toList());
+//        String test = "test";
+//        List<String> tests = List.of(test);
+//
+//        System.out.println(tests.size());
+//        System.out.println(tests);
 
-        System.out.println(dishes);
+//        Map<String, String> testMap = new HashMap<>();
+//        testMap.put("testKey", "TestVal");
+//        testMap.put("totoKey", "TotoVal");
+//
+//        System.out.println(testMap.values().stream().findFirst().orElseThrow(() -> new IllegalArgumentException("Err")));
+
+        List<Test1> l1 = List.of(new Test1("t1", BigDecimal.valueOf(3)), new Test1("t1", BigDecimal.valueOf(7)), new Test1("t1", BigDecimal.valueOf(9)));
+        List<Test2> l2 = List.of(new Test2("t2", BigDecimal.valueOf(5)), new Test2("t2", BigDecimal.valueOf(31)), new Test2("t2", BigDecimal.valueOf(71)));
+
+        System.out.println(l1);
+        System.out.println(l2);
+        System.out.println(Stream.of(l1, l2).flatMap(Collection::stream).collect(Collectors.toList()));
+
+        BigDecimal t1 = BigDecimal.valueOf(2);
+        BigDecimal t2 = BigDecimal.valueOf(2).add(t1);
+        System.out.println(t1);
+        System.out.println(t2);
+        System.out.println(t1);
+//
+//        Object res =
+//            Stream.of(
+//                l1.stream().map(Test1::getVal).collect(Collectors.toList()),
+//                l2.stream().map(Test2::getVal).collect(Collectors.toList())
+//            )
+//                .flatMap(Collection::stream)
+//                .reduce(BigDecimal::add)
+//                .get();
+//
+//        System.out.println(res);
+
+//        List<Integer> list1 = List.of(0, 0, 0, 0, 0);
+//        List<Integer> list2 = List.of(0, 1, 2, 1, 2);
+//        System.out.println(list1);
+//        System.out.println(list2);
+//
+//        boolean b1 = list1.stream().allMatch(elt -> elt == 0);
+//        boolean b2 = list2.stream().allMatch(elt -> elt == 0);
+//
+//        System.out.println(b1);
+//        System.out.println(b2);
     }
 
     private void testIf() {
@@ -106,7 +225,7 @@ public class TestApplication implements CommandLineRunner {
 //        int[] arr = new int[50];
         List<Integer> list = new ArrayList<>();
 
-        for (int i = 0; i <= 3 ; i++) {
+        for (int i = 0; i <= 3; i++) {
             System.out.println("2) Entrer un nb : ");
             list.add(Integer.parseInt(sc.nextLine()));
         }
@@ -119,11 +238,11 @@ public class TestApplication implements CommandLineRunner {
     }
 
     private void objectMapping() throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        User user = new User(1, "Mehdi");
-        String userJson = mapper.writeValueAsString(user);
-        System.out.println(user);
-        System.out.println(userJson);
+//        ObjectMapper mapper = new ObjectMapper();
+//        User user = new User(1, "Mehdi");
+//        String userJson = mapper.writeValueAsString(user);
+//        System.out.println(user);
+//        System.out.println(userJson);
     }
 
     private void testRegexEscap() {
@@ -155,18 +274,30 @@ public class TestApplication implements CommandLineRunner {
 //		System.out.println(date2.compareTo(new Date()));
 
 
-        Date d = Date.from(LocalDate.now().minusMonths(3).atStartOfDay(ZoneId.systemDefault()).toInstant()); // 3 mois en arrière
-        System.out.println(d);
+//        Date d = Date.from(LocalDate.now().minusMonths(3).atStartOfDay(ZoneId.systemDefault()).toInstant()); // 3 mois en arrière
+//        System.out.println(d);
+
+        ZonedDateTime tenMinAgo = ZonedDateTime.now().minusMinutes(10);
+        System.out.println(tenMinAgo);
+
+        ZonedDateTime t = ZonedDateTime.now().minusMinutes(5);
+        System.out.println(t);
+
+        System.out.println(t.isAfter(tenMinAgo));
     }
 
     private void testStrBuilder() {
-        String strB = "Test";
-        strB += "klou";
-        System.out.println(strB);
+//        String strB = "Test";
+//        strB += "klou";
+//        System.out.println(strB);
+//
+//        Dishe dishe = new Dishe("med", Collections.emptyList());
+//        if (dishe.getIsTest() != null && dishe.getIsTest()) System.out.println("ok");
+//        else System.out.println("ko");
 
-        Dishe dishe = new Dishe("med", Collections.emptyList());
-        if (dishe.getIsTest() != null && dishe.getIsTest()) System.out.println("ok");
-        else System.out.println("ko");
+        StringBuilder sb = new StringBuilder(" Je fais un super test <a href=\\\"https://stackinsat.com/dashboard/home?from_email=true\\\">service client</a> GGHHG");
+        sb.append("YOUHOU");
+        System.out.println(sb.toString());
     }
 
     private void testProperties() {
@@ -207,21 +338,21 @@ public class TestApplication implements CommandLineRunner {
         List<User> users = userService.getUsers();
         Predicate<String> nameNoLessThan5 = n -> n.length() <= 5;
         List<String> usersStream =
-                users.stream().map(user -> user.getFavoriteDishes().stream().map(Dishe::getName).filter(nameNoLessThan5).collect(Collectors.toList())).flatMap(Collection::stream).distinct().collect(Collectors.toList());
+            users.stream().map(user -> user.getFavoriteDishes().stream().map(Dishe::getName).filter(nameNoLessThan5).collect(Collectors.toList())).flatMap(Collection::stream).distinct().collect(Collectors.toList());
         System.out.println(usersStream);
         System.out.println(usersStream.size());
     }
 
     private void streamTest2() {
         List<User> userList1 =
-                Arrays.asList(new User(1, "Mehdi", "Hamerlaine", null),
-                        new User(2, "Narj", "Tona", null),
-                        new User(3, "Toto", "Titi", null));
+            Arrays.asList(new User(1, "Mehdi", "Hamerlaine", null),
+                new User(2, "Narj", "Tona", null),
+                new User(3, "Toto", "Titi", null));
 
         List<User> userList2 =
-                Arrays.asList(new User(1, "autre1", "de", null),
-                        new User(2, "autre2", "fe", null),
-                        new User(3, "autre3", "xs", null));
+            Arrays.asList(new User(1, "autre1", "de", null),
+                new User(2, "autre2", "fe", null),
+                new User(3, "autre3", "xs", null));
 
 //        System.out.println(userList2);
 //        userList1.forEach(u1 ->
@@ -243,6 +374,22 @@ public class TestApplication implements CommandLineRunner {
         }
         System.out.println(m.keySet().stream().findFirst().get());
         System.out.println(m.values().stream().findFirst().get());
+    }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public class Test1 {
+        String type;
+        BigDecimal val;
+    }
+
+    @AllArgsConstructor
+    @Getter
+    @Setter
+    public class Test2 {
+        String type;
+        BigDecimal val;
     }
 
 }
