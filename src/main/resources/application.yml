@@ -1,0 +1,12 @@
+demo:
+  role1:
+    feat1,
+    feat2,
+    feat3
+  role2:
+    feat3
+  role3:
+    feat1,
+    feat3
+
+test-list: "toto, tata, tati"

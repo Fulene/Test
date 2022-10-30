@@ -32,18 +32,18 @@ public class UserRepository {
     }
 
     private void fillUsersList() {
-        Dishe pizza = new Dishe("Pizza", Arrays.asList(new Ingredient("pâte"), new Ingredient("jambon"), new Ingredient("merguez")));
-        Dishe burger = new Dishe("Burger", Arrays.asList(new Ingredient("pain"), new Ingredient("steak"), new Ingredient("fromage")));
-        Dishe tagine = new Dishe("Tagine", Arrays.asList(new Ingredient("agneau"), new Ingredient("patates")));
-        Dishe autre = new Dishe("Autre", Arrays.asList(new Ingredient("autre"), new Ingredient("autre"), new Ingredient("autre"), new Ingredient("autre")));
-
-        User mehdi = new User(1, "Mehdi", "Hamerlaine", Arrays.asList(pizza, burger, tagine));
-        User narj = new User(1, "Narj", "Tona", Arrays.asList(burger, tagine));
-        User toto = new User(1, "Toto", "Titi", Arrays.asList(autre, pizza));
-
-        users.add(mehdi);
-        users.add(narj);
-        users.add(toto);
+//        Dishe pizza = new Dishe("Pizza", Arrays.asList(new Ingredient("pâte"), new Ingredient("jambon"), new Ingredient("merguez")));
+//        Dishe burger = new Dishe("Burger", Arrays.asList(new Ingredient("pain"), new Ingredient("steak"), new Ingredient("fromage")));
+//        Dishe tagine = new Dishe("Tagine", Arrays.asList(new Ingredient("agneau"), new Ingredient("patates")));
+//        Dishe autre = new Dishe("Autre", Arrays.asList(new Ingredient("autre"), new Ingredient("autre"), new Ingredient("autre"), new Ingredient("autre")));
+//
+//        User mehdi = new User(1, "Mehdi", "Hamerlaine", Arrays.asList(pizza, burger, tagine));
+//        User narj = new User(1, "Narj", "Tona", Arrays.asList(burger, tagine));
+//        User toto = new User(1, "Toto", "Titi", Arrays.asList(autre, pizza));
+//
+//        users.add(mehdi);
+//        users.add(narj);
+//        users.add(toto);
     }
 
 }

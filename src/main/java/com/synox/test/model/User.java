@@ -8,6 +8,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class User {
     private String lastname;
 
     @JsonView(Views.WithoutRestrictionView.class)
-    private List<Dishe> favoriteDishes;
+    private Set<Dishe> favoriteDishes;
 
 
     @JsonIgnore
