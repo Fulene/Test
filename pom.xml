@@ -8,11 +8,11 @@
 		<version>2.4.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.synox</groupId>
+	<groupId>com.test</groupId>
 	<artifactId>test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>test</name>
-	<description>synox test</description>
+	<description>Test</description>
 
 	<properties>
 		<java.version>1.8</java.version>

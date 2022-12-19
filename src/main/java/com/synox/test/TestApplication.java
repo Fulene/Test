@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @SpringBootApplication
@@ -98,7 +99,7 @@ public class TestApplication implements CommandLineRunner {
 //        testFromMasterBranch();
 //        testFromTestBranch();
 //        testBool();
-        testBigDecimal();
+//        testBigDecimal();
 //        testConversion();
 //        testValueInj();
 //        testRef();
@@ -111,6 +112,22 @@ public class TestApplication implements CommandLineRunner {
 //        testFuture();
 //        testListFromAppYml();
 //        testTrunc();
+//        testRange();
+        testModulo();
+    }
+
+    private void testModulo() {
+        System.out.println(200%4);
+        System.out.println(200%100);
+        System.out.println(200%400);
+    }
+
+    private void testRange() {
+        List<Integer> list = IntStream.range(1, 5)
+            .boxed()
+            .collect(Collectors.toList());
+
+        System.out.println(list);
     }
 
     private void testTrunc() {
