@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,6 +33,13 @@ class DictionaryReplacerTest {
     @Test
     public void shouldStringReplacer_returnTheSameStrAsOnEntry_ifDictionaryIsNull() {
         String str = "$temp$ here comes the name $name$";
+        assertEquals(str, dictionaryReplacer.stringReplacer(str, null));
+    }
+
+    @Test
+    public void shouldStringReplacer_returnTheSameStrAsOnEntry_ifDictionaryDoesNotContainAStringIncludedInSource() {
+        String str = "$temp$ here comes the name $name$";
+//        List<Map<String, String>> list = List.of("")
         assertEquals(str, dictionaryReplacer.stringReplacer(str, null));
     }
 
